@@ -1,4 +1,4 @@
-.PHONY: migrate drop
+.PHONY: migrate drop sqlc test run
 
 migrate:
 	migrate -path db/migrations -database ${DATABASE_URL} -verbose up
@@ -11,3 +11,6 @@ sqlc:
 
 test:
 	go test -v -cover ./...
+
+run:
+	go run main.go
