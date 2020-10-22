@@ -15,3 +15,4 @@ A `go` service a simple bank. It has APIs for the frontend to do following thing
 
 - [Simple Bank Tutorial](https://dev.to/techschoolguru/design-db-schema-and-generate-sql-code-with-dbdiagram-io-4ko5)
 - [Design a SQL database schema](dbdiagram.io)
+- [Adding service containers to workflows](https://docs.github.com/en/free-pro-team@latest/actions/guides/creating-postgresql-service-containers)
