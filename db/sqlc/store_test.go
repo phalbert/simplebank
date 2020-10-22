@@ -133,7 +133,7 @@ func TestTransferTxDeadlock(t *testing.T) {
 	fmt.Println(">> before:", acc1.Balance, acc2.Balance)
 
 	// run several i.e n concurrent routines to test db txns
-	n := 100
+	n := 10
 	amount := int64(10)
 
 	for i := 0; i < n; i++ {
