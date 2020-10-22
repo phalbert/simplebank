@@ -24,12 +24,8 @@ func TestTransferTx(t *testing.T) {
 	amount := int64(10)
 
 	for i := 0; i < n; i++ {
-		txName := fmt.Sprintf("tx %d", i+1)
-
 		go func() {
-			ctx := context.WithValue(context.Background(), txtKey, txName)
-
-			result, err := store.TransferTx(ctx, TransferTxParams{
+			result, err := store.TransferTx(context.Background(), TransferTxParams{
 				FromAccountID: acc1.ID,
 				ToAccountID:   acc2.ID,
 				Amount:        amount,
@@ -139,8 +135,8 @@ func TestTransferTxDeadlock(t *testing.T) {
 	for i := 0; i < n; i++ {
 		fromAccountID := acc1.ID
 		toAccountID := acc2.ID
-		
-		if i % 2 == 1 {
+
+		if i%2 == 1 {
 			fromAccountID = acc2.ID
 			toAccountID = acc1.ID
 		}
