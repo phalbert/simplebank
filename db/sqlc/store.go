@@ -76,7 +76,7 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 		if err != nil {
 			return err
 		}
-		
+
 		fmt.Println(txName, "create entry 1")
 		// create the from entry
 		result.FromEntry, err = q.CreateEntry(ctx, CreateEntryParams{
@@ -86,7 +86,7 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 		if err != nil {
 			return err
 		}
-		
+
 		fmt.Println(txName, "create entry 2")
 		// create the to entry
 		result.ToEntry, err = q.CreateEntry(ctx, CreateEntryParams{
@@ -96,24 +96,39 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 		if err != nil {
 			return err
 		}
-		
-		
-		fmt.Println(txName, "update account 1 balance")
-		result.FromAccount, err = q.AddBalance(ctx, AddBalanceParams{
-			ID:      arg.FromAccountID,
-			Amount:  -arg.Amount,
-		})
-		if err != nil {
-			return err
-		}
-		
-		fmt.Println(txName, "get account 2 to update")
-		result.ToAccount, err = q.AddBalance(ctx, AddBalanceParams{
-			ID:      arg.ToAccountID,
-			Amount:  arg.Amount,
-		})
-		if err != nil {
-			return err
+
+		if arg.FromAccountID < arg.ToAccountID {
+			result.FromAccount, err = q.AddBalance(ctx, AddBalanceParams{
+				ID:     arg.FromAccountID,
+				Amount: -arg.Amount,
+			})
+			if err != nil {
+				return err
+			}
+
+			result.ToAccount, err = q.AddBalance(ctx, AddBalanceParams{
+				ID:     arg.ToAccountID,
+				Amount: arg.Amount,
+			})
+			if err != nil {
+				return err
+			}
+		} else {
+			result.ToAccount, err = q.AddBalance(ctx, AddBalanceParams{
+				ID:     arg.ToAccountID,
+				Amount: arg.Amount,
+			})
+			if err != nil {
+				return err
+			}
+			
+			result.FromAccount, err = q.AddBalance(ctx, AddBalanceParams{
+				ID:     arg.FromAccountID,
+				Amount: -arg.Amount,
+			})
+			if err != nil {
+				return err
+			}
 		}
 
 		return nil
