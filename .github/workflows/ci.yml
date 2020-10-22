@@ -1,4 +1,4 @@
-name: CI test
+name: CI
 
 on:
   push:
@@ -44,7 +44,10 @@ jobs:
           which migrate
 
       - name: Run migrations
-        run: make migrate       
+        run: make migrate  
+        # Environment variable used by the script to connect to PostgreSQL.
+        env:
+          DATABASE_URL: postgresql://postgres:@postgres:5432/bank?sslmode=disable 
 
       - name: Test
         run: make test
