@@ -21,6 +21,9 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: bank
+        # Maps tcp port 5432 on service container to host
+        ports:
+            - 5342:5432
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -47,8 +50,10 @@ jobs:
         run: make migrate  
         # Environment variable used by the script to connect to PostgreSQL.
         env:
-          DATABASE_URL: postgresql://postgres:@postgres:5432/bank?sslmode=disable 
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/bank?sslmode=disable 
 
       - name: Test
         run: make test
+        env:
+          DATABASE_URL: postgresql://postgres:@postgres:5432/bank?sslmode=disable 
 
